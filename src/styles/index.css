@@ -1,0 +1,438 @@
+@import 'tailwindcss';
+
+/* ── Design tokens: orange · black · white ─────────────────── */
+:root {
+  --bg: #080808;
+  --bg-2: #111111;
+  --surface: #191919;
+  --text: #ffffff;
+  --muted: #a1a1aa;
+  --line: rgb(249 115 22 / 0.15);
+  --line-soft: rgb(255 255 255 / 0.07);
+  --orange: #f97316;
+  --orange-bright: #ff6b00;
+  --orange-soft: #fdba74;
+  --grid: rgb(255 255 255 / 0.04);
+  --grid-hot: rgb(249 115 22 / 0.4);
+  --glass: rgb(17 17 17 / 0.62);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-orange: var(--orange);
+  --color-orange-bright: var(--orange-bright);
+  --color-orange-soft: var(--orange-soft);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    @apply bg-bg font-sans text-fg;
+    overflow-x: clip;
+    min-width: 320px;
+  }
+  ::selection {
+    background: rgb(249 115 22 / 0.4);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.7rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--orange);
+  color: #0a0a0a;
+  font-weight: 600;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: calc(1rem + env(safe-area-inset-top));
+}
+
+/* ── Utilities ─────────────────────────────────────────────── */
+@utility container-x {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+  @media (width >= 40rem) {
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+  }
+}
+
+@utility section-y {
+  padding-block: clamp(4rem, 10vw, 7.5rem);
+}
+
+@utility glass {
+  background: var(--glass);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--line-soft);
+}
+
+@utility text-gradient {
+  background: linear-gradient(115deg, #ffffff 15%, var(--orange-soft) 55%, var(--orange) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-orange {
+  background: linear-gradient(110deg, var(--orange-soft), var(--orange) 45%, var(--orange-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility card {
+  position: relative;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, var(--surface), var(--bg-2));
+  border: 1px solid var(--line-soft);
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Fluid type scale */
+.t-hero {
+  font-size: clamp(2.6rem, 14vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.t-h2 {
+  font-size: clamp(1.9rem, 6vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.t-lead {
+  font-size: clamp(1rem, 2.6vw, 1.175rem);
+  line-height: 1.65;
+}
+
+/* Cursor-follow glow border (pointer devices only) */
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    380px circle at var(--px, 50%) var(--py, 0%),
+    rgb(249 115 22 / 0.85),
+    rgb(253 186 116 / 0.25) 40%,
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.glow-border:focus-within::before {
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+  .glow-border:hover {
+    transform: translateY(-2px);
+  }
+}
+/* Touch: show a quiet static orange border instead */
+@media (hover: none) {
+  .glow-border {
+    border-color: var(--line);
+  }
+}
+
+/* ── Hero background ───────────────────────────────────────── */
+.hero-grid,
+.hero-grid-hot {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center top;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, #000 30%, transparent 75%);
+}
+/* Grid drift only on desktop pointers: it repaints a full-screen layer, so phones skip it for battery and smoothness. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .hero-grid {
+    animation: grid-drift 24s linear infinite;
+  }
+}
+.hero-grid-hot {
+  background-image:
+    linear-gradient(to right, var(--grid-hot) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-hot) 1px, transparent 1px);
+  mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), #000, transparent 70%);
+  -webkit-mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), #000, transparent 70%);
+  opacity: var(--hot, 0);
+  transition: opacity 0.4s ease;
+}
+.hero-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(560px circle at var(--mx, 50%) var(--my, 40%), rgb(249 115 22 / 0.1), transparent 60%);
+  opacity: var(--hot, 0);
+  transition: opacity 0.4s ease;
+}
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: 0 48px; }
+}
+
+/* ── 3D object (pure CSS) ──────────────────────────────────── */
+.scene {
+  perspective: 1000px;
+}
+.cube {
+  --s: 120px;
+  width: var(--s);
+  height: var(--s);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spin3d 24s linear infinite;
+}
+@media (width >= 64rem) {
+  .cube {
+    --s: 170px;
+  }
+}
+.cube > span {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 1px solid rgb(253 186 116 / 0.4);
+  background:
+    linear-gradient(135deg, rgb(249 115 22 / 0.22), rgb(255 107 0 / 0.05) 60%, transparent),
+    rgb(17 17 17 / 0.3);
+  box-shadow: inset 0 0 36px rgb(249 115 22 / 0.18);
+}
+.cube > span:nth-child(1) { transform: rotateY(0deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(2) { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(3) { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(5) { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+
+.ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid rgb(249 115 22 / 0.3);
+}
+.ring-a {
+  inset: -22%;
+  animation: ring-a 18s linear infinite;
+}
+.ring-b {
+  inset: -42%;
+  border-color: rgb(253 186 116 / 0.16);
+  animation: ring-b 28s linear infinite;
+}
+.ring::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--orange);
+  box-shadow: 0 0 14px 4px rgb(249 115 22 / 0.6);
+}
+.ring-b::after {
+  background: var(--orange-soft);
+  box-shadow: 0 0 14px 4px rgb(253 186 116 / 0.5);
+}
+.core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--orange-soft) 22%, var(--orange) 52%, rgb(255 107 0 / 0.15) 80%);
+  box-shadow: 0 0 60px 8px rgb(249 115 22 / 0.45);
+  animation: pulse 5s ease-in-out infinite;
+}
+.float {
+  animation: float 9s ease-in-out infinite;
+}
+
+@keyframes spin3d {
+  from { transform: rotateX(-20deg) rotateY(0deg) rotateZ(8deg); }
+  to { transform: rotateX(-20deg) rotateY(360deg) rotateZ(8deg); }
+}
+@keyframes ring-a {
+  from { transform: rotateX(72deg) rotateZ(0deg); }
+  to { transform: rotateX(72deg) rotateZ(360deg); }
+}
+@keyframes ring-b {
+  from { transform: rotateX(62deg) rotateY(16deg) rotateZ(360deg); }
+  to { transform: rotateX(62deg) rotateY(16deg) rotateZ(0deg); }
+}
+@keyframes pulse {
+  0%, 100% { scale: 1; opacity: 0.92; }
+  50% { scale: 1.08; opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes ping-soft {
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+.ping-soft {
+  animation: ping-soft 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 6s linear infinite;
+}
+/* Animated text highlight: a soft light sweep across orange gradient text */
+.text-shimmer {
+  background: linear-gradient(110deg, var(--orange) 0%, var(--orange-soft) 25%, var(--orange-bright) 50%, var(--orange-soft) 75%, var(--orange) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .text-shimmer {
+    animation: shimmer 7s linear infinite;
+  }
+}
+
+/* Soft orange glows drawn with gradients instead of filter: blur() (much cheaper to paint on phones) */
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgb(249 115 22 / var(--glow, 0.16)), transparent);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cube,
+  .ring-a,
+  .ring-b,
+  .core,
+  .float,
+  .ping-soft,
+  .shimmer {
+    animation: none !important;
+  }
+  .cube {
+    transform: rotateX(-20deg) rotateY(35deg) rotateZ(8deg);
+  }
+}
+
+/* Native dialog */
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.7);
+  backdrop-filter: blur(6px);
+}
+
+/* ── Form controls (16px min to prevent iOS zoom) ──────────── */
+.field {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 0.8rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: var(--bg-2);
+  padding: 0.75rem 0.95rem;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.field::placeholder {
+  color: #71717a;
+}
+.field:hover {
+  border-color: rgb(255 255 255 / 0.18);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 4px rgb(249 115 22 / 0.18);
+}
+.field[aria-invalid='true'] {
+  border-color: #f87171;
+}
+.field[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 4px rgb(248 113 113 / 0.18);
+}
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.6rem;
+}
+select.field option {
+  background: var(--bg-2);
+  color: var(--text);
+}

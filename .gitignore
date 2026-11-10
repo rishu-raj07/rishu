@@ -1,0 +1,26 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.wrangler
+.env.local
+*.local
+
+# Secrets / keys
+*.pem
+*.key
+*.p12
+secrets/
+.dev.vars
+
+# Editor / tooling / temp
+.claude/
+.vscode/
+.idea/
+coverage/
+tmp/
+*.tmp
+Thumbs.db
