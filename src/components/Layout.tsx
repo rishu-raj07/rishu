@@ -113,7 +113,7 @@ export function BottomNav() {
 
 export function Footer() {
   return (
-    <footer className="cv-auto border-t border-line bg-ivory/60 [contain-intrinsic-size:auto_520px]">
+    <footer className="cv-auto hidden border-t border-line bg-ivory/60 [contain-intrinsic-size:auto_520px] md:block">
       <div className="wrap grid gap-8 py-10 md:grid-cols-[1.3fr_1fr_1fr] md:py-14">
         <div>
           <Link to="/" className="inline-flex min-h-11 items-center gap-2.5" aria-label="Rishu Raj — home">

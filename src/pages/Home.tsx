@@ -25,7 +25,7 @@ export function Home() {
         </div>
       </section>
 
-      <section id="contact" aria-labelledby="contact-title" className="cv-auto wrap pb-14 pt-4 sm:pb-20">
+      <section id="contact" aria-labelledby="contact-title" className="cv-auto wrap pb-6 pt-4 sm:pb-20">
         <div className="reveal grid items-center gap-6 rounded-[1.6rem] bg-gradient-to-br from-[#fff1e8] via-ivory to-white p-6 shadow-soft sm:p-10 lg:grid-cols-[1fr_1.1fr_auto]">
           <h2 id="contact-title" className="text-[clamp(1.8rem,5vw,2.6rem)] font-extrabold leading-[1.05] tracking-[-0.04em]">
             Let&apos;s build
