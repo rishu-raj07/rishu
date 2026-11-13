@@ -1,0 +1,3 @@
+# Old RR logo assets now point to the face icon
+/brand/*        /img/avatar-logo-192.webp   301
+/favicon.svg    /favicon-48.png             301
