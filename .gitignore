@@ -24,3 +24,6 @@ coverage/
 tmp/
 *.tmp
 Thumbs.db
+
+dist-ssr
+.wrangler

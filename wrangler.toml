@@ -1,0 +1,9 @@
+# Cloudflare Pages project config (used by `wrangler pages deploy`).
+name = "rishuraj"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-10-01"
+
+# Workers AI binding for the "Ask Rishu AI" Pages Function (functions/api/chat.ts).
+# Runs server-side on Cloudflare — no API key is exposed to the browser.
+[ai]
+binding = "AI"
